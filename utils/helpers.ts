@@ -1,10 +1,9 @@
 import type { DecodedJwt, RequestLog } from "~types"
 
 export const hasJwt = (log: RequestLog) => {
-  const authHeader = log.requestHeaders?.find(
+  return !!log.requestHeaders?.find(
     (h) => h.name.toLowerCase() === "authorization"
   )
-  return authHeader?.value?.toLowerCase().includes("bearer") || false
 }
 
 export const getJwtFromLog = (log: RequestLog): string | null => {
@@ -18,38 +17,43 @@ export const getJwtFromLog = (log: RequestLog): string | null => {
     return value.slice(7).trim()
   }
 
-  if (value.split(".").length === 3) {
-    return value.trim()
-  }
-
-  return null
+  return value.trim()
 }
 
-export const decodeJwt = (token: string): DecodedJwt | null => {
+export const decodeJwt = (token: string): DecodedJwt => {
+  const result: DecodedJwt = {
+    header: {},
+    payload: {},
+    token
+  }
+
   try {
     const parts = token.split(".")
-    if (parts.length !== 3) return null
-
-    const decodePart = (part: string) => {
-      let base64 = part.replace(/-/g, "+").replace(/_/g, "/")
-      while (base64.length % 4) base64 += "="
-
-      return decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map((c) => "%" + c.charCodeAt(0).toString(16).padStart(2, "0"))
-          .join("")
-      )
+    if (parts.length !== 3) {
+      result.error = `Invalid format: Expected 3 parts (header.payload.signature), but found ${parts.length}.`
+      return result
     }
 
-    return {
-      header: JSON.parse(decodePart(parts[0])),
-      payload: JSON.parse(decodePart(parts[1])),
-      token
+    const decodePart = (part: string, name: string) => {
+      try {
+        let base64 = part.replace(/-/g, "+").replace(/_/g, "/")
+        while (base64.length % 4) base64 += "="
+        const binary = atob(base64)
+        const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0))
+        const decoded = new TextDecoder().decode(bytes)
+        return JSON.parse(decoded)
+      } catch (e: unknown) {
+        throw new Error(`Invalid ${name}: ${e instanceof Error ? e.message : String(e)}`)
+      }
     }
-  } catch {
-    return null
+
+    result.header = decodePart(parts[0], "header")
+    result.payload = decodePart(parts[1], "payload")
+  } catch (e: unknown) {
+    result.error = e instanceof Error ? e.message : String(e)
   }
+
+  return result
 }
 
 export const extractPermissions = (payload: unknown): string[] => {
@@ -98,7 +102,14 @@ export const getExpirationInfo = (payload: unknown) => {
 
   const expTime = data.exp * 1000
   const diff = expTime - Date.now()
-  const date = new Date(expTime).toLocaleString()
+  const date = new Date(expTime).toLocaleString(undefined, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  })
 
   if (diff <= 0) {
     return {
