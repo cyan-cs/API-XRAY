@@ -73,8 +73,7 @@ function IndexSidePanel() {
   const jwtDetails = useMemo(() => {
     try {
       if (!activeJwtLog) return null
-      const token = getJwtFromLog(activeJwtLog)
-      if (!token) return null
+      const token = getJwtFromLog(activeJwtLog) || ""
       return decodeJwt(token)
     } catch (e) {
       console.error("[API-Xray] JWT Detail error:", e)
@@ -276,8 +275,14 @@ function IndexSidePanel() {
                     }
                     onJwtClick={(e) => {
                       e.stopPropagation()
+                      const token = getJwtFromLog(log) || ""
+                      const decoded = decodeJwt(token)
+                      if (decoded.error) {
+                        setToast(`JWTの解析に失敗しました: ${decoded.error}`)
+                      }
                       setActiveJwtLog(log)
                     }}
+
                   />
 
                   {isSelected && (
