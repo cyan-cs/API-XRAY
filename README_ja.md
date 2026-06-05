@@ -41,10 +41,13 @@ npm run build
 - ESLint & Prettier: コードベースをクリーンに保つため、標準化された設定ファイル（`.eslintrc.json`, `.prettierrc.mjs`）が含まれています。
 - GitHub Actions: Chrome Web Store等への自動パブリッシュ（Plasmo BPP）に対応した、本番環境向けのCI/CDワークフロー（任意設定）が含まれています。
 
-## 5.ライセンス
+## 5. ライセンス
 API-Xrayのすべてのコードは、MITライセンスのもとで提供されています。
 
-## 6. サポート
-もしこのツールを気に入っていただけたら、ぜひリポジトリにスターをお願いします！
+## 6. プライバシー
+詳細なプライバシーポリシーについては、[PRIVACY.ja.md](./ja/PRIVACY.ja.md) をご確認ください。
+
+## 7. サポート
+もしこのツールを気に入っていただけたら、ぜひリポジトリにスターをお願いします！<br /> <br />
 
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/0cyan)
