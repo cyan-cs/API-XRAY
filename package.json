@@ -1,7 +1,7 @@
 {
   "name": "api-xray",
   "displayName": "Api xray",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A basic Plasmo extension.",
   "author": "cyan-cs",
   "scripts": {
