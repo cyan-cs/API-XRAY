@@ -14,9 +14,10 @@ export interface RequestLog {
 }
 
 export interface DecodedJwt {
-  header: unknown
-  payload: unknown
+  header: Record<string, unknown>
+  payload: Record<string, unknown>
   token: string
+  error?: string
 }
 
 export type FilterType = "ALL" | "ERRORS" | "JWT"
