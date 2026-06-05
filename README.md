@@ -54,7 +54,10 @@ npm run build
 
 All API-Xray code is released under the MIT License.
 
-## 6. Support
+6. Privacy Policy
+For the detailed Privacy Policy, please refer to [PRIVACY.en.md](./docs/en/PRIVACY.en.md).
+
+## 7. Support
 
 If you like it, I'd appreciate it if you could give it a star!<br /><br />
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/0cyan)
