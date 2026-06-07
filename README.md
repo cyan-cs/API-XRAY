@@ -15,26 +15,22 @@ Copyright (c) 2026-present cyan-cs
 
 ## 2. Installation
 
-Since this extension is built with Plasmo, you can load it into your browser as an unpacked extension:
+### 🌐 Install from Chrome Web Store
+You can install the stable version directly from the official store:
+
+[Available in the Chrome Web Store](https://chromewebstore.google.com/detail/api-xray/bckoaldclpjipijnecncmdobjiihfabm)
+
+### 🛠️ Manual Installation (From Source)
+Since this extension is built with Plasmo, you can also load it into your browser as an unpacked extension:
 
 1. Download or clone this repository.
 2. Run `npm install` and `npm run build` to generate the production build.
 3. Open Chrome and navigate to `chrome://extensions/`.
 4. Enable **Developer mode** (top-right toggle).
 5. Click **Load unpacked** and select the `build/chrome-mv3-prod` folder.
-
 ## 3. Build & Development
 
 This project uses **npm** as the standard package manager.
-
-### Development Mode
-
-Run the live-reloading development server:
-
-```bash
-npm run dev
-
-```
 
 ### Build for Production
 
